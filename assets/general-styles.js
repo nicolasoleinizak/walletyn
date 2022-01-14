@@ -110,7 +110,7 @@ const generalStyles = StyleSheet.create({
         }
         else{
             return {
-                color: 'inherit'
+                color: 'black'
             }
         }
     },
