@@ -9,16 +9,29 @@ class New extends React.Component{
         super(props);
         this.state = {
             type: 0,
-            date: 114142,
+            date: 0,
+            subject: '',
+            amount: 0
         }
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.close = this.close.bind(this);
         this.reset = this.reset.bind(this);
+        this.register = this.register.bind(this);
     }
-
+    
     handleDateChange(value){
         this.setState({
             date: timestamp(value)
+        })
+    }
+    
+    handleInputChange(value, name){
+        this.setState(prevState => {
+            return{
+                ...prevState,
+                [name]: value
+            }
         })
     }
 
@@ -34,6 +47,17 @@ class New extends React.Component{
         })
     }
 
+    register(){
+        this.props.onRegister(
+            this.state.type,
+            this.state.date,
+            this.state.subject,
+            this.state.amount
+        )
+        this.close();
+    }
+
+
     render(){
         return(
             <View style={generalStyles.modalView}>
@@ -48,12 +72,12 @@ class New extends React.Component{
                             <TouchableHighlight style={generalStyles.switchItem(this.state.type === 0)}><Text style={generalStyles.switchItemText(this.state.type === 0)}>Egresos</Text></TouchableHighlight>
                         </View>
                         <View style={generalStyles.formField}>
-                            <TextInput placeholder='Asunto...' style={generalStyles.textInput}/>
+                            <TextInput placeholder='Asunto...' style={generalStyles.textInput} value={this.state.subject} onChangeText={(value) => this.handleInputChange(value, 'subject')}/>
                         </View>
                         <View style={generalStyles.formField}>
-                            <TextInput placeholder='Suma...' style={generalStyles.textInput}/>
+                            <TextInput placeholder='Suma...' style={generalStyles.textInput} value={String(this.state.amount)} onChangeText={(value) => this.handleInputChange(value, 'amount')}/>
                         </View>
-                        <TouchableHighlight style={generalStyles.button}><Text style={generalStyles.buttonText}>Guardar</Text></TouchableHighlight>
+                        <TouchableHighlight style={generalStyles.button} onPress={this.register}><Text style={generalStyles.buttonText}>Registrar</Text></TouchableHighlight>
                         <TouchableHighlight style={generalStyles.button} onPress={this.close}><Text style={generalStyles.buttonText}>Cerrar</Text></TouchableHighlight>
                     </View>
                 </View>

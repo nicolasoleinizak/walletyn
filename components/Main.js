@@ -53,11 +53,33 @@ class Main extends React.Component{
                 amount: 6000
             },
         }
+        this.register = this.register.bind(this);
         this.openNewModal = this.openNewModal.bind(this);
         this.openEditorModal = this.openEditorModal.bind(this);
         this.closeNewModal = this.closeNewModal.bind(this);
         this.closeEditorModal = this.closeEditorModal.bind(this);
-        this.editor = React.createRef()
+        this.editor = React.createRef();
+    }
+
+    register(type, date, subject, amount){
+        console.log(subject)
+        let maxId = 0;
+        for(let i = 0; i < this.state.records.length; i++){
+            if(this.state.records[i].id > maxId){
+                maxId = this.state.records[i].id
+            }
+        }
+        this.setState( prevState => {
+            return{
+                records: prevState.records.concat({
+                    id: maxId + 1,
+                    type: type,
+                    date: date,
+                    subject: subject,
+                    amount: amount
+                })
+            }
+        })
     }
 
     changeView(viewName){
@@ -124,7 +146,7 @@ class Main extends React.Component{
                 <Editor onClose={this.closeEditorModal} record={this.state.editedRecord} ref={this.editor}/>
             </Modal>
             <Modal visible={this.state.modalNewVisible} animationType='fade' style={generalStyles.modal}>
-                <New onClose={this.closeNewModal}/>
+                <New onClose={this.closeNewModal} onRegister={this.register}/>
             </Modal>
         </View>
         )
