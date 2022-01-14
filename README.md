@@ -3,6 +3,11 @@ Meant to be used as a personal accounts manager, with incomes and expenses recor
 This application, created with React Native, is designed to work natively on android devices.
 
 ## Testing
+We will asume you have installed *npm* and you know his basic usage.
+To run this project for the first time, you will need to install the dependencies specified in package.json. To do it, run:
+```
+npm install
+```
 You can test the source code using the npm command:
 ```
 npm start
