@@ -1,43 +1,25 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button} from 'react-native';
-import { ScrollView } from 'react-native-web';
+import { StyleSheet, Text, View, Button, Image, useColorScheme, Modal} from 'react-native';
+import generalStyles from './assets/general-styles.js';
 
-export default function App() {
-  return (
-    <ScrollView>
-    </ScrollView>
-  );
-}
+import Main from './components/Main.js'
 
-const colors = {
-  blue: '#fr567'
-}
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    flex: 1,
-    backgroundColor: colors.blue,
-    padding: '5%',
-    boxSizing: 'border-box' 
-  },
-  siteTitle: {
-    fontSize: '2rem'
-  },
-  mainNav: {
-    flex: 1,
-    padding: '10px',
-    boxSizing: 'border-box'
-  },
-  navButton: {
-    width: '40px',
-    height: '40px',
-    borderRadius: '10px',
-    padding: '5px',
-    boxSizing: 'border-box'
+class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+    };
   }
-});
+
+  render(){
+    return (
+      <View style={generalStyles.fullContainer}>
+        <Main />
+        <StatusBar />
+      </View>
+    );
+  }
+}
+
+export default App
