@@ -54,6 +54,12 @@ class New extends React.Component{
             this.state.subject,
             this.state.amount
         )
+        this.setState({
+            type: 0,
+            date: timestamp(new Date()),
+            subject: '',
+            amount: 0
+        })
         this.close();
     }
 
