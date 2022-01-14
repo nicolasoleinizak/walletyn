@@ -11,12 +11,26 @@ class New extends React.Component{
             type: 0,
             date: 114142,
         }
-        this.handleDateChange = this.handleDateChange.bind(this)
+        this.handleDateChange = this.handleDateChange.bind(this);
+        this.close = this.close.bind(this);
+        this.reset = this.reset.bind(this);
     }
 
     handleDateChange(value){
         this.setState({
             date: timestamp(value)
+        })
+    }
+
+    close(){
+        this.reset()
+        this.props.onClose()
+    }
+
+    reset(){
+        this.setState({
+            type: 0,
+            date: timestamp(new Date())
         })
     }
 
@@ -40,6 +54,7 @@ class New extends React.Component{
                             <TextInput placeholder='Suma...' style={generalStyles.textInput}/>
                         </View>
                         <TouchableHighlight style={generalStyles.button}><Text style={generalStyles.buttonText}>Guardar</Text></TouchableHighlight>
+                        <TouchableHighlight style={generalStyles.button} onPress={this.close}><Text style={generalStyles.buttonText}>Cerrar</Text></TouchableHighlight>
                     </View>
                 </View>
             </View>

@@ -34,7 +34,7 @@ class Home extends React.Component{
                                     <Text style={generalStyles.recordCell, {flex: 2}}>{localDateString(record.date)}</Text>
                                     <Text style={generalStyles.recordCell, {flex: 4}}>{record.subject}</Text>
                                     <Text style={generalStyles.recordCell, {flex: 1.5}}>$ {record.amount}</Text>
-                                    <TouchableHighlight accessibilityRole="button" style={generalStyles.recordCell, generalStyles.touchableView}>
+                                    <TouchableHighlight accessibilityRole="button" style={generalStyles.recordCell, generalStyles.touchableView} onPress={() => {this.props.onEdit(record.id)}}>
                                         <Image source={require('../assets/img/icons/editar.png')} style={generalStyles.buttonImage}/>
                                     </TouchableHighlight>
                                     <TouchableHighlight accessibilityRole="button" style={generalStyles.recordCell, generalStyles.touchableView} >

@@ -12,7 +12,7 @@ class Main extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            view: 'List',
+            view: 'Home',
             modalEditorVisible: false,
             modalNewVisible: false,
             records: [
@@ -42,32 +42,77 @@ class Main extends React.Component{
                     type: 1,
                     date: 1641958990000,
                     subject: 'Dolor ipsum meum est',
-                    amount: 5000
+                    amount: 6000
                 },
-            ]
+            ],
+            editedRecord: {
+                id: null,
+                type: 1,
+                date: 1641958990000,
+                subject: 'Dolor ipsum meum est',
+                amount: 6000
+            },
         }
+        this.openNewModal = this.openNewModal.bind(this);
+        this.openEditorModal = this.openEditorModal.bind(this);
+        this.closeNewModal = this.closeNewModal.bind(this);
+        this.closeEditorModal = this.closeEditorModal.bind(this);
+        this.editor = React.createRef()
     }
 
-    
+    changeView(viewName){
+        this.setState({
+            view: viewName
+        })
+    }
+
+    openNewModal(){
+        this.setState({
+            modalNewVisible: true
+        })
+    }
+
+    openEditorModal(recordId){
+        this.setState({
+            editedRecord: this.state.records.find( record => {
+                return record.id === recordId;
+            }),
+            modalEditorVisible: true
+        }, () => {
+            console.log(this.state.editedRecord)
+            this.editor.current.set()
+        })
+    }
+
+    closeNewModal(){
+        this.setState({
+            modalNewVisible: false
+        })
+    }
+
+    closeEditorModal(){
+        this.setState({
+            modalEditorVisible: false
+        })
+    }
 
     render(){
         let view = () => {
             switch(this.state.view){
                 case 'Home':
-                    return <Home records={this.state.records}/>
+                    return <Home records={this.state.records} onEdit={this.openEditorModal}/>
                 case 'List':
-                    return <List records={this.state.records}/>
+                    return <List records={this.state.records} onEdit={this.openEditorModal}/>
             }
         }
-
         return(
         <View style={generalStyles.container}>
             <View style={styles.header}>
                 <Text style={styles.siteTitle}>Walletyn</Text>
                 <View style={styles.mainNav}>
-                    <TouchableHighlight style={generalStyles.touchableView}><Image style={generalStyles.buttonImage} source={require('../assets/img/icons/casa.png')} /></TouchableHighlight>
-                    <TouchableHighlight style={generalStyles.touchableView}><Image style={generalStyles.buttonImage} source={require('../assets/img/icons/portapapeles.png')} /></TouchableHighlight>
-                    <TouchableHighlight style={generalStyles.touchableView}><Image style={generalStyles.buttonImage} source={require('../assets/img/icons/mas.png')} /></TouchableHighlight>
+                    <TouchableHighlight style={generalStyles.touchableView} onPress={() => this.changeView('Home')} underlayColor={'grey'}><Image style={generalStyles.buttonImage} source={require('../assets/img/icons/casa.png')} /></TouchableHighlight>
+                    <TouchableHighlight style={generalStyles.touchableView} onPress={() => this.changeView('List')} underlayColor={'grey'}><Image style={generalStyles.buttonImage} source={require('../assets/img/icons/portapapeles.png')} /></TouchableHighlight>
+                    <TouchableHighlight style={generalStyles.touchableView} onPress={this.openNewModal} underlayColor={'grey'}><Image style={generalStyles.buttonImage} source={require('../assets/img/icons/mas.png')} /></TouchableHighlight>
                 </View>
             </View>
             <View style={styles.content}>
@@ -76,10 +121,10 @@ class Main extends React.Component{
                 }
             </View>
             <Modal visible={this.state.modalEditorVisible} animationType='fade'>
-                <Editor />
+                <Editor onClose={this.closeEditorModal} record={this.state.editedRecord} ref={this.editor}/>
             </Modal>
             <Modal visible={this.state.modalNewVisible} animationType='fade' style={generalStyles.modal}>
-                <New />
+                <New onClose={this.closeNewModal}/>
             </Modal>
         </View>
         )
