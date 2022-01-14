@@ -6,11 +6,26 @@ import { localDateString } from "../assets/functions";
 class Home extends React.Component{
     constructor(props){
         super(props)
+        this.balance = this.balance.bind(this)
+    }
+
+    balance(){
+        return this.props.records.reduce( (sum, record) => {
+            if(record.type === 0){
+                return sum - record.amount;
+            }
+            else{
+                return sum + record.amount;
+            }
+        }, 0) 
     }
 
     render(){
         return(
             <View style={generalStyles.container}>
+                <View style={style.balance}>
+                    <Text>Balance: ${this.balance()}</Text>
+                </View>
                 <View>
                     {
                         this.props.records.map( record => {
@@ -32,6 +47,15 @@ class Home extends React.Component{
                 </View>
             </View>
         )
+    }
+}
+
+const style = {
+    balance: {
+        padding: 20,
+        borderRadius: 10,
+        borderColor: 'black',
+        borderWidth: 2,
     }
 }
 
